@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+  pre_build:
+    commands:
+      - echo Pre-Build started on `date`
+      - pip install -r requirements.txt
+  build:
+    commands:
+      - echo Build started on `date`
+      - bash -c "python hello_world.py >> log.txt 2>&1 &"
+  post_build:
+    commands:
+      - echo Post-Build started on `date`
+      - bash -c "python web-test.py >> results.txt"
+artifacts:
+    files:
+      - results.txt
+      - hello_world.py
+      - appspec.yml
+      - scripts/**/*
+    discard-paths: no
